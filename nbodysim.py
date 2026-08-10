@@ -32,8 +32,8 @@ def main():
     for timestep in range(num_steps):
         force = gravitational_force(earth_pos, earth_mass, sun_pos, sun_mass)
         acceleration = force / earth_mass
-        earth_pos = (earth_vel * dt) + earth_pos
         earth_vel = (acceleration * dt) + earth_vel
+        earth_pos = (earth_vel * dt) + earth_pos
         positions.append(earth_pos)
 
     # Visualize
@@ -44,7 +44,7 @@ def main():
     plt.axis('equal')
     plt.xlabel('x(m)')
     plt.ylabel('y(m)')
-    plt.title('Earth orbit (Euler integration)')
+    plt.title('Earth orbit (semi-implicit Euler)')
     plt.show()
 
     return 0

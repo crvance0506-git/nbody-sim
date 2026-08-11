@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+G = 6.674e-11 # Universal gravitational constant
+
 class Body:
     def __init__(self, mass, position, velocity):
         self.mass = mass
@@ -14,7 +16,7 @@ def kinetic_energy(bodies):
 
     return total_kinetic
 
-def potential_energy(bodies, G=6.674e-11):
+def potential_energy(bodies):
     total_potential = 0
     for i, body_i in enumerate(bodies):
         for j, body_j in enumerate(bodies):
@@ -25,7 +27,7 @@ def potential_energy(bodies, G=6.674e-11):
 
     return total_potential * -1
 
-def gravitational_force(body1, body2, G=6.674e-11):
+def gravitational_force(body1, body2):
     r_vec = body2.position - body1.position
     r_mag = np.linalg.norm(r_vec)
     r_hat = r_vec / r_mag
@@ -37,21 +39,20 @@ def gravitational_force(body1, body2, G=6.674e-11):
 
 def main():
 
-    # SI Units
-    # Sun: mass, position, velocity
-    sun = Body(1.889e30, np.array([0, 0]), np.array([0, 0]))
+    # Three bodies of comparable mass for demonstrative purposes (not modeling real celestial bodies)
+    # Using SI units
+    # Bodies: mass(scalar), position(vector), velocity(vector)
+    body1 = Body(1.889e30, np.array([0, 0]), np.array([0, 0]))
     
-    # Earth: mass, position, velocity
-    earth = Body(1.989e30, np.array([1.496e11, 0]), np.array([0, 29780]))
+    body2 = Body(1.989e30, np.array([1.496e11, 0]), np.array([0, 29780]))
 
-    # Mars:
-    mars = Body(2.189e30, np.array([-1.496e11, 0]), np.array([0, -35780]))
+    body3 = Body(2.189e30, np.array([-1.496e11, 0]), np.array([0, -35780]))
                  
     dt = 86400 # Step 1 day represented with seconds
     YEARS_TO_SIMULATE = 5
     num_steps = int(365 * YEARS_TO_SIMULATE) # Modify YEARS_TO_SIMULATE rather than this variable for an easier time
 
-    bodies = [earth, mars, sun]
+    bodies = [body1, body2, body3]
     position_history = [[] for _ in bodies] # Stores the position of each body at each time step
     energy_history = [] # Stores the total energy of the system at each time step
 
@@ -101,7 +102,7 @@ def main():
     plt.xlabel('time(days)')
     plt.ylabel('total energy (J)')
     plt.title('Total Energy in System')
-    
+
     plt.show()
 
     return 0
